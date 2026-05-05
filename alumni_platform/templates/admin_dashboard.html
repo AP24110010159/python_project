@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Admin Dashboard</h2>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Platform Overview & Statistics</p>
+    
+    <div class="grid-3" style="margin-bottom: 2rem;">
+        <div style="background: linear-gradient(135deg, var(--primary), #7c3aed); color: white; padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);">
+            <div style="font-size: 2.5rem; font-weight: bold; font-family: 'Outfit';">{{ stats.students }}</div>
+            <div style="font-size: 0.9rem; opacity: 0.9;">Registered Students</div>
+        </div>
+        <div style="background: linear-gradient(135deg, #17a2b8, #008ba3); color: white; padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 4px 12px rgba(23, 162, 184, 0.2);">
+            <div style="font-size: 2.5rem; font-weight: bold; font-family: 'Outfit';">{{ stats.alumni }}</div>
+            <div style="font-size: 0.9rem; opacity: 0.9;">Registered Alumni</div>
+        </div>
+        <div style="background: linear-gradient(135deg, var(--success), #059669); color: white; padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);">
+            <div style="font-size: 2.5rem; font-weight: bold; font-family: 'Outfit';">{{ stats.opportunities }}</div>
+            <div style="font-size: 0.9rem; opacity: 0.9;">Opportunities Posted</div>
+        </div>
+        <div style="background: linear-gradient(135deg, #6f42c1, #5a32a3); color: white; padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 4px 12px rgba(111, 66, 193, 0.2);">
+            <div style="font-size: 2.5rem; font-weight: bold; font-family: 'Outfit';">{{ stats.events }}</div>
+            <div style="font-size: 0.9rem; opacity: 0.9;">Total Events</div>
+        </div>
+    </div>
+    
+    <div class="grid-2">
+        <div style="border: 1px solid var(--border); padding: 1.5rem; border-radius: 8px;">
+            <h3>Quick Actions</h3>
+            <ul style="list-style: none; margin-top: 1rem;">
+                <li style="margin-bottom: 0.5rem;"><a href="{{ url_for('create_event') }}">➕ Create Platform Event</a></li>
+                <li style="margin-bottom: 0.5rem;"><a href="{{ url_for('search') }}">🔍 View All Users (Search)</a></li>
+                <li style="margin-bottom: 0.5rem;"><a href="{{ url_for('opportunities') }}">💼 Manage Opportunities</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

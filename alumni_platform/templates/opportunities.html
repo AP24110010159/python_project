@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h2>Opportunities Board</h2>
+    {% if session['role'] in ['alumni', 'admin'] %}
+    <a href="{{ url_for('create_opportunity') }}" class="btn btn-primary">+ Post Opportunity</a>
+    {% endif %}
+</div>
+
+<div class="grid-2">
+    {% for opp in opportunities %}
+    <div class="card" style="margin-bottom: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: start;">
+            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">{{ opp.title }}</h3>
+            <span class="badge badge-primary">{{ opp.company }}</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Posted by {{ opp.poster_name }} | Deadline: <strong>{{ opp.deadline }}</strong></p>
+        
+        <p style="margin-bottom: 1rem;">{{ opp.description }}</p>
+        
+        <div>
+            <strong>Required Skills:</strong>
+            <p style="font-size: 0.9rem; margin-top: 0.2rem;">{{ opp.skills }}</p>
+        </div>
+        
+        {% if session['role'] == 'admin' or session['user_id'] == opp.posted_by_id %}
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <form action="{{ url_for('delete_opportunity', id=opp.id) }}" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-sm" style="background: var(--danger); color: white; padding: 0.2rem 0.6rem; font-size: 0.8rem;" onclick="return confirm('Are you sure?')">Delete</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <p>No opportunities available right now. Check back later!</p>
+    {% endfor %}
+</div>
+{% endblock %}

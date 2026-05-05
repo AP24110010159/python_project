@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h2 style="margin-bottom: 1.5rem;">Post New Opportunity</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label>Job/Internship Title</label>
+            <input type="text" name="title" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Company/Organization</label>
+            <input type="text" name="company" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Description (Roles & Responsibilities)</label>
+            <textarea name="description" class="form-control" rows="4" required></textarea>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Required Skills (comma separated)</label>
+                <input type="text" name="skills" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Application Deadline</label>
+                <input type="date" name="deadline" class="form-control">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Submit Posting</button>
+    </form>
+</div>
+{% endblock %}

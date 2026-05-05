@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="grid-2">
+    <div>
+        <div class="card">
+            <h2>Welcome, {{ session['fullname'] }}</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">Alumni Dashboard</p>
+            <p>Thank you for giving back to the community and guiding the future generation!</p>
+            <a href="{{ url_for('profile') }}" class="btn btn-primary" style="margin-top: 1rem;">Update Profile</a>
+        </div>
+        
+        <div class="card">
+            <h3>Mentorship Requests</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Students seeking your guidance</p>
+            {% for req in mentorship_requests %}
+                <div style="border: 1px solid var(--border); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                    <h4>{{ req.student_name }}</h4>
+                    <p style="font-size: 0.9rem;">Branch: {{ req.branch }} | Year: {{ req.year }}</p>
+                    <span class="badge badge-{{ req.status }}">{{ req.status | title }}</span>
+                    
+                    {% if req.status == 'pending' %}
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                        <form action="{{ url_for('handle_mentorship', req_id=req.id, status='accepted') }}" method="POST">
+                            <button class="btn btn-primary btn-sm" style="padding: 0.3rem 0.8rem;">Accept</button>
+                        </form>
+                        <form action="{{ url_for('handle_mentorship', req_id=req.id, status='rejected') }}" method="POST">
+                            <button class="btn btn-sm" style="background: var(--danger); color: white; padding: 0.3rem 0.8rem;">Reject</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>No pending mentorship requests.</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div>
+        <div class="card">
+            <h3>Opportunities You Posted</h3>
+            <a href="{{ url_for('create_opportunity') }}" class="btn btn-primary" style="margin-bottom: 1rem;">+ Post New Opportunity</a>
+            {% for opp in opportunities %}
+                <div style="border-left: 3px solid var(--primary); padding-left: 1rem; margin-bottom: 1rem;">
+                    <h4>{{ opp.title }}</h4>
+                    <p style="font-size: 0.9rem;">Deadline: {{ opp.deadline }}</p>
+                </div>
+            {% else %}
+                <p>You haven't posted any opportunities yet.</p>
+            {% endfor %}
+        </div>
+        
+        <div class="card">
+            <h3>Events Management</h3>
+            <a href="{{ url_for('create_event') }}" class="btn">+ Post New Event</a>
+            <a href="{{ url_for('events') }}" class="btn" style="margin-left: 0.5rem;">View All Events</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

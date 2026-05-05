@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="grid-2">
+    <div>
+        <div class="card">
+            <h2>Welcome, {{ session['fullname'] }}</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">Student Dashboard</p>
+            <p>Ready to connect with industry experts and find your next opportunity?</p>
+            <a href="{{ url_for('profile') }}" class="btn btn-primary" style="margin-top: 1rem;">Update Profile</a>
+        </div>
+        
+        <div class="card">
+            <h3>Top Recommended Mentors</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Based on your branch & skills (Smart Match)</p>
+            {% for alumni in recommended_alumni %}
+                <div style="border: 1px solid var(--border); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                    <h4>{{ alumni.fullname }}</h4>
+                    <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+                        <strong>{{ alumni.designation }}</strong> at <strong>{{ alumni.company }}</strong><br>
+                        Branch: {{ alumni.branch }}
+                    </p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Skills: {{ alumni.skills }}</p>
+                    <form action="{{ url_for('request_mentorship', alumni_id=alumni.id) }}" method="POST" style="margin-top: 0.5rem;">
+                        <button class="btn btn-primary btn-sm" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;">Request Mentorship</button>
+                    </form>
+                </div>
+            {% else %}
+                <p>No recommendations available right now. Update your profile completely!</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div>
+        <div class="card">
+            <h3>Recent Opportunities</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Internships and Jobs</p>
+            {% for opp in opportunities %}
+                <div style="border-left: 3px solid var(--primary); padding-left: 1rem; margin-bottom: 1rem;">
+                    <h4>{{ opp.title }}</h4>
+                    <p style="font-size: 0.9rem;"><strong>Company:</strong> {{ opp.company }} | <strong>Deadline:</strong> {{ opp.deadline }}</p>
+                    <p style="font-size: 0.85rem;">Skills: {{ opp.skills }}</p>
+                    <a href="{{ url_for('opportunities') }}" style="font-size: 0.85rem;">View Details &rarr;</a>
+                </div>
+            {% else %}
+                <p>No new opportunities posted.</p>
+            {% endfor %}
+            <a href="{{ url_for('opportunities') }}" class="btn btn-sm" style="margin-top: 1rem;">View All</a>
+        </div>
+        
+        <div class="card">
+            <h3>My Mentorship Requests</h3>
+            <a href="{{ url_for('mentorship') }}" class="btn btn-primary">Manage Requests</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

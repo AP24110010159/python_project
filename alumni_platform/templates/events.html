@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h2>Upcoming Events & Webinars</h2>
+    {% if session['role'] in ['alumni', 'admin'] %}
+    <a href="{{ url_for('create_event') }}" class="btn btn-primary">+ Create Event</a>
+    {% endif %}
+</div>
+
+<div class="grid-3">
+    {% for event in events %}
+    <div class="card" style="margin-bottom: 0;">
+        <div style="background: var(--primary-light); color: white; padding: 1rem; border-radius: 6px 6px 0 0; margin: -2rem -2rem 1.5rem -2rem;">
+            <h3 style="margin:0;">{{ event.title }}</h3>
+        </div>
+        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>📅 Date:</strong> {{ event.date }} at {{ event.time }}</p>
+        <p style="font-size: 0.9rem; margin-bottom: 1rem;"><strong>📍 Venue/Link:</strong> {{ event.venue }}</p>
+        <p style="color: var(--text-dark); margin-bottom: 1.5rem;">{{ event.description }}</p>
+        
+        {% if session['role'] == 'admin' or session['user_id'] == event.posted_by_id %}
+        <div style="border-top: 1px solid var(--border); padding-top: 1rem;">
+            <form action="{{ url_for('delete_event', id=event.id) }}" method="POST">
+                <button type="submit" class="btn btn-sm" style="background: var(--danger); color: white; padding: 0.2rem 0.6rem; font-size: 0.8rem;" onclick="return confirm('Are you sure you want to delete this event?')">Delete Event</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <p>No upcoming events at the moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}

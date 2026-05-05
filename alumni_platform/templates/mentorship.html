@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Mentorship Requests</h2>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Track your requests sent to alumni.</p>
+
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border);">
+                <th style="padding: 1rem 0.5rem;">Mentor Name</th>
+                <th style="padding: 1rem 0.5rem;">Company / Designation</th>
+                <th style="padding: 1rem 0.5rem;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in requests %}
+            <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 1rem 0.5rem;"><strong>{{ req.alumni_name }}</strong></td>
+                <td style="padding: 1rem 0.5rem;">{{ req.designation }} at {{ req.company }}</td>
+                <td style="padding: 1rem 0.5rem;">
+                    <span class="badge badge-{{ req.status }}">{{ req.status | title }}</span>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" style="padding: 1rem 0.5rem; text-align: center;">You have not sent any mentorship requests yet. Go to <a href="{{ url_for('search') }}">Search</a> to find alumni.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
